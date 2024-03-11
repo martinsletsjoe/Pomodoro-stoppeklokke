@@ -1,11 +1,11 @@
 import { HStack } from "@chakra-ui/react";
 import ColorModeSwitch from "./ColorModeSwitch";
-import Index from "./Clock/Index";
+import Clock from "./clock/Clock";
 
 const NavBar = () => {
   return (
     <HStack justifyContent={"space-between"}>
-      <Index />
+      <Clock />
       <ColorModeSwitch />
     </HStack>
   );

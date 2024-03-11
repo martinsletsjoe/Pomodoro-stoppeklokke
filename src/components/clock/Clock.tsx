@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 
-const Index = () => {
+const Clock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -62,4 +62,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Clock;
