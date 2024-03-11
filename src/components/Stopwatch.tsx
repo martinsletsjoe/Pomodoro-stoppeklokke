@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Stopwatch = () => {
   const [seconds, setSeconds] = useState(5);
@@ -19,6 +19,8 @@ const Stopwatch = () => {
     <>
       <div>{seconds}</div>
       <Button onClick={startCountdown}>Start</Button>
+      <Button>Stop</Button>
+      <Button>Reset</Button>
     </>
   );
 };
