@@ -1,36 +1,68 @@
 import { Button } from "@chakra-ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const initialTime = 5;
 
 const Stopwatch = () => {
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(initialTime);
+  const [isRunning, setIsRunning] = useState(false);
 
-  function delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  useEffect(() => {
+    let intervalId: number | null | undefined = null;
 
-  async function startCountdown() {
-    for (let i = seconds; i > 0; i--) {
-      await delay(1000);
-      setSeconds(i - 1);
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setSeconds((prevSeconds) => {
+          if (prevSeconds <= 1) {
+            setIsRunning(false); // Stop the timer if time runs out
+            return 0;
+          }
+          return prevSeconds - 1;
+        });
+      }, 1000);
+    }
+
+    // Cleanup function to clear the interval when the component unmounts or isRunning changes
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [isRunning]); // This effect depends on isRunning
+
+  function startCountdown() {
+    if (!isRunning && seconds > 0) {
+      setIsRunning(true);
     }
   }
 
+  function resetTimer() {
+    setIsRunning(false); // Stop the timer
+    setSeconds(initialTime); // Reset the seconds
+  }
+
+  function stopTimer() {
+    setIsRunning(false); // This will automatically clear the interval
+  }
+
+  function formatTime() {
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    let formattedMinutes = minutes.toString().padStart(2, "0");
+    let formattedSeconds = remainingSeconds.toString().padStart(2, "0");
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
+
   return (
-    <>
-      <div>{seconds}</div>
+    <div style={{ textAlign: "center" }}>
+      <div>{formatTime()}</div>
       <Button onClick={startCountdown}>Start</Button>
-      <Button>Stop</Button>
-      <Button>Reset</Button>
-    </>
+      <Button onClick={stopTimer}>Stop</Button>
+      <Button onClick={resetTimer}>Reset</Button>
+    </div>
   );
 };
 
 export default Stopwatch;
-
-//   const minutes = Math.floor(seconds / 60);
-//   const remainingSeconds = seconds % 60;
-
-//   const formattedMinutes = minutes.toString().padStart(2, "0");
-//   const formattedSeconds = remainingSeconds.toString().padStart(2, "0");
-
-//   const timer = formattedMinutes + ":" + formattedSeconds;
