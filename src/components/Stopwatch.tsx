@@ -1,25 +1,26 @@
+import { Button } from "@chakra-ui/button";
 import { useEffect, useState } from "react";
 
 const Stopwatch = () => {
   const [seconds, setSeconds] = useState(5);
 
-  useEffect(() => {
-    const countdown = async () => {
-      for (let i = seconds; i > 0; i--) {
-        await delay(1000);
-        setSeconds(i - 1);
-      }
-    };
-    countdown();
-
-    return () => {};
-  }, []);
-
   function delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  return <div>{seconds}</div>;
+  async function startCountdown() {
+    for (let i = seconds; i > 0; i--) {
+      await delay(1000);
+      setSeconds(i - 1);
+    }
+  }
+
+  return (
+    <>
+      <div>{seconds}</div>
+      <Button onClick={startCountdown}>Start</Button>
+    </>
+  );
 };
 
 export default Stopwatch;

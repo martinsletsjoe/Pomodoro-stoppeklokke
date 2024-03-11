@@ -21,7 +21,7 @@ const Clock = () => {
   const secondRotation = seconds * 6; // 6 degrees per second
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{ width: "550px" }}>
       <div className={styles.barSeconds}>
         {[...Array(60)].map((_, i) => (
           <span key={i} style={{ "--index": i + 1 } as React.CSSProperties}>
