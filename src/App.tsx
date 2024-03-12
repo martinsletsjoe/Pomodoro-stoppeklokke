@@ -1,6 +1,7 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import Stopwatch from "./components/Stopwatch";
+import SessionLog from "./components/SessionLog";
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
       }}
       templateColumns={{
         base: "1fr",
-        lg: "300px 1fr",
+        lg: "500px 1fr",
       }}
     >
       <GridItem area="nav" bg="#081b29">
@@ -19,7 +20,7 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" bg="green">
-          <div>Aside</div>
+          <SessionLog />
         </GridItem>
       </Show>
       <GridItem area="main" bg="dodgerblue">
