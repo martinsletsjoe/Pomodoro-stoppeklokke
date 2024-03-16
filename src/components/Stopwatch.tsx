@@ -1,20 +1,32 @@
 import { Button } from "@chakra-ui/button";
 import { useState, useEffect } from "react";
+import { TimerInfo } from "../types";
 
 const initialTime = 5;
 
-const Stopwatch = () => {
+interface StopWatchProps {
+  setTimerInfo: (
+    timerInfo: TimerInfo | ((prevTimerInfo: TimerInfo) => TimerInfo)
+  ) => void;
+}
+
+const Stopwatch = ({ setTimerInfo }: StopWatchProps) => {
   const [seconds, setSeconds] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    let intervalId: number | null | undefined = null;
+    let intervalId: number | null = null;
 
     if (isRunning) {
+      const startTime = new Date();
+
+      setTimerInfo((prev) => ({ ...prev, startTime }));
       intervalId = setInterval(() => {
         setSeconds((prevSeconds) => {
           if (prevSeconds <= 1) {
             setIsRunning(false); // Stop the timer if time runs out
+            const endTime = new Date();
+            setTimerInfo((prev: TimerInfo) => ({ ...prev, endTime }));
             return 0;
           }
           return prevSeconds - 1;
@@ -39,6 +51,7 @@ const Stopwatch = () => {
   function resetTimer() {
     setIsRunning(false); // Stop the timer
     setSeconds(initialTime); // Reset the seconds
+    setTimerInfo({ startTime: null, endTime: null });
   }
 
   function stopTimer() {

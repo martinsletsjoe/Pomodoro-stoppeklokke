@@ -2,8 +2,15 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import Stopwatch from "./components/Stopwatch";
 import SessionLog from "./components/SessionLog";
+import { useState } from "react";
+import { TimerInfo } from "./types";
 
 function App() {
+  const [timerInfo, setTimerInfo] = useState<TimerInfo>({
+    startTime: null,
+    endTime: null,
+  });
+
   return (
     <Grid
       templateAreas={{
@@ -20,11 +27,11 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" bg="green">
-          <SessionLog />
+          <SessionLog timerInfo={timerInfo} />
         </GridItem>
       </Show>
       <GridItem area="main" bg="dodgerblue">
-        <Stopwatch />
+        <Stopwatch setTimerInfo={setTimerInfo} />
       </GridItem>
     </Grid>
   );

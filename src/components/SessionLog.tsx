@@ -9,8 +9,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { TimerInfo } from "../types";
 
-const SessionLog = () => {
+interface DisplayInfoProps {
+  timerInfo: TimerInfo;
+}
+
+const SessionLog = ({ timerInfo }: { timerInfo: TimerInfo }) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -24,9 +29,9 @@ const SessionLog = () => {
         </Thead>
         <Tbody>
           <Tr>
-            <Td>12.03.2024</Td>
-            <Td>09:24:27</Td>
-            <Td isNumeric>09:24:32</Td>
+            <Td>12.12.2021</Td>
+            <Td>{timerInfo.startTime?.toString()}</Td>
+            <Td isNumeric>{timerInfo.endTime?.toString()}</Td>
           </Tr>
         </Tbody>
         <Tfoot>
