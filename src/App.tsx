@@ -6,10 +6,12 @@ import { useState } from "react";
 import { TimerInfo } from "./types";
 
 function App() {
-  const [timerInfo, setTimerInfo] = useState<TimerInfo>({
-    startTime: null,
-    endTime: null,
-  });
+  const [timerInfos, setTimerInfos] = useState<TimerInfo[]>([]);
+
+  const addTimerInfo = (newTimerInfo: TimerInfo) => {
+    setTimerInfos((prevTimerInfos) => [...prevTimerInfos, newTimerInfo]);
+    console.log("here:", newTimerInfo);
+  };
 
   return (
     <Grid
@@ -27,11 +29,11 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" bg="green">
-          <SessionLog timerInfo={timerInfo} />
+          <SessionLog timerInfos={timerInfos} />
         </GridItem>
       </Show>
       <GridItem area="main" bg="dodgerblue">
-        <Stopwatch setTimerInfo={setTimerInfo} />
+        <Stopwatch addTimerInfo={addTimerInfo} />
       </GridItem>
     </Grid>
   );

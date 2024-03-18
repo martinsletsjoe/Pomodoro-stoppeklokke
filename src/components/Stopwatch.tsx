@@ -5,12 +5,10 @@ import { TimerInfo } from "../types";
 const initialTime = 5;
 
 interface StopWatchProps {
-  setTimerInfo: (
-    timerInfo: TimerInfo | ((prevTimerInfo: TimerInfo) => TimerInfo)
-  ) => void;
+  addTimerInfo: (timerInfo: TimerInfo) => void;
 }
 
-const Stopwatch = ({ setTimerInfo }: StopWatchProps) => {
+const Stopwatch = ({ addTimerInfo }: StopWatchProps) => {
   const [seconds, setSeconds] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -20,13 +18,12 @@ const Stopwatch = ({ setTimerInfo }: StopWatchProps) => {
     if (isRunning) {
       const startTime = new Date();
 
-      setTimerInfo((prev) => ({ ...prev, startTime }));
       intervalId = setInterval(() => {
         setSeconds((prevSeconds) => {
           if (prevSeconds <= 1) {
             setIsRunning(false); // Stop the timer if time runs out
             const endTime = new Date();
-            setTimerInfo((prev: TimerInfo) => ({ ...prev, endTime }));
+            setTimeout(() => addTimerInfo({ startTime, endTime }), 0);
             return 0;
           }
           return prevSeconds - 1;
@@ -51,7 +48,6 @@ const Stopwatch = ({ setTimerInfo }: StopWatchProps) => {
   function resetTimer() {
     setIsRunning(false); // Stop the timer
     setSeconds(initialTime); // Reset the seconds
-    setTimerInfo({ startTime: null, endTime: null });
   }
 
   function stopTimer() {

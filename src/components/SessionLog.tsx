@@ -10,12 +10,16 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { TimerInfo } from "../types";
+import moment from "moment";
+import React from "react";
 
 interface DisplayInfoProps {
-  timerInfo: TimerInfo;
+  timerInfos: TimerInfo[]; // Note the plural 'timerInfos' indicating an array of TimerInfo objects
 }
 
-const SessionLog = ({ timerInfo }: { timerInfo: TimerInfo }) => {
+const SessionLog: React.FC<DisplayInfoProps> = ({ timerInfos }) => {
+  // let logTimes = []String;
+
   return (
     <TableContainer>
       <Table variant="simple">
@@ -28,11 +32,14 @@ const SessionLog = ({ timerInfo }: { timerInfo: TimerInfo }) => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>12.12.2021</Td>
-            <Td>{timerInfo.startTime?.toString()}</Td>
-            <Td isNumeric>{timerInfo.endTime?.toString()}</Td>
-          </Tr>
+          {timerInfos.map((timerInfo, index) => (
+            <Tr key={index}>
+              <Td>{moment(timerInfo.startTime)?.format(`Do MMMM YYYY`)}</Td>
+              {/* <Td>{timerInfo.startTime?.toString()}</Td> */}
+              <Td>{moment(timerInfo.startTime)?.format(`HH:mm:ss`)}</Td>
+              <Td isNumeric>{moment(timerInfo.endTime)?.format(`HH:mm:ss`)}</Td>
+            </Tr>
+          ))}
         </Tbody>
         <Tfoot>
           <Tr>
